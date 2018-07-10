@@ -1,20 +1,6 @@
 import random
 
 """
-- Borrar un vértice X
-
-- Agregar/Borrar una arista X
-
-- Ver si dos vértices están conectados. X
-
-- Obtener el peso de la unión de dos vértices (si fuera no pesado, podría ser 1). (SI NO EXITE EL VERTICE ES -1) X
-
-- Obtener un vértice aleatorio: (HAY QUE VER SI NO TIENE VERTICES) X
-
-- Obtener los adyacentes a un vértice. X
-
-- Obtener la cantidad de vértices X
-
 - Tener alguna forma de iterarlo. ???
 """
 
@@ -74,7 +60,7 @@ class Grafo(object):
     def obtener_vertices(self):
         return (self.vertices.keys())
 
-    #PRE: EL GRAFO TIENE VERTICES 
+    #PRE: EL GRAFO TIENE VERTICES
     def obtener_vertice_random(self):
         claves = list(self.vertices.keys())
         return random.choice(claves)
@@ -121,52 +107,3 @@ class Grafo(object):
         if(self.existe_vertice(id)):
             return list(self.vertices[id].obtener_adyacentes())
         return False
-
-
-
-def main():
-    graph = Grafo()
-
-    graph.agregar_vertice('A','socchi')
-    graph.agregar_vertice('B','moscu')
-    graph.agregar_vertice('C','mondongo')
-    graph.agregar_vertice('D','samara')
-    graph.agregar_vertice('E','kazan')
-
-    print(graph.obtener_vertice_random())
-
-    print(graph.obtener_dato_vertice('A'))
-
-    #AGREGO ARISTA
-    if (graph.agregar_arista('A','B',8)):
-        print ('AGREGAR ARISTA OK ')
-
-    if (not graph.agregar_arista('A','B',8)):
-        print ('FALSE DUPLICAR ARISTA OK')
-
-    graph.agregar_arista('A','C',18)
-    graph.agregar_arista('A','E',28)
-    graph.agregar_arista('B','C',38)
-    graph.agregar_arista('B','D',4)
-    graph.agregar_arista('C','D',14)
-    graph.agregar_arista('D','E',24)
-
-    print("A:", graph.obtener_adyacentes('A'))
-    print("B:",graph.obtener_adyacentes('B'))
-    print("C:",graph.obtener_adyacentes('C'))
-    print("D:",graph.obtener_adyacentes('D'))
-    print("E:",graph.obtener_adyacentes('E'))
-
-    
-    graph.borrar_arista('A','B')
-    graph.borrar_vertice('D')
-    print("")
-    print("A:", graph.obtener_adyacentes('A'))
-    print("B:",graph.obtener_adyacentes('B'))
-    print("C:",graph.obtener_adyacentes('C'))
-    print("D:",graph.obtener_adyacentes('D'))
-    print("E:",graph.obtener_adyacentes('E'))
-
-
-
-main()
