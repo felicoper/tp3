@@ -29,77 +29,88 @@ arbol_tendido_minimo(grafo): (prim o kruskal)
 """
 
 
-def parsear_archivo(file):
+"""carga el dataset del .csv al grafo"""
+def parsear_archivo_grafo(file,grafo):
     """
     # Cantidad de ciudades (n)
     Ciudad1,lat1,long1
     Ciudad1,lat1,long1
-    #creo el vertice -> el dato es la tupla lat y long.
 
-    ...
     Ciudad_n,lat_n,long_n
     # Cantidad de aristas
     Ciudad_i,Ciudad_j,tiempo
-    ...
     """
     vertices = {}
 
+    #UNICAMENTE PARSEA LOS VERTICES Y LAS ARISTAS.
     with open (file,"r") as f:
-        f_reader = csv.DictReader(f,delimiter=',')
+        f_reader = csv.reader(f,delimiter=',')
         for row in f_reader:
-            print (row)
+            if(len(row)==3):
+                try:
+                    vertice = row[0]
+                    coordenadas = (float(row[1]),float(row[2]))
+                    grafo.agregar_vertice(vertice,coordenadas)
 
-
-
-
-
+                except ValueError:
+                    vertice = row[0]
+                    arista = row[1]
+                    peso = int(row[2])
+                    grafo.agregar_arista(vertice,arista,peso)
 
 
 def main():
     graph = Grafo()
+    parsear_archivo_grafo("sedes.csv",graph)
 
-    graph.agregar_vertice('A','socchi')
-    graph.agregar_vertice('B','moscu')
-    graph.agregar_vertice('C','mondongo')
-    graph.agregar_vertice('D','samara')
-    graph.agregar_vertice('E','kazan')
-
-    print(graph.obtener_vertice_random())
-
-    print(graph.obtener_dato_vertice('A'))
-
-    #AGREGO ARISTA
-    if (graph.agregar_arista('A','B',8)):
-        print ('AGREGAR ARISTA OK ')
-
-    if (not graph.agregar_arista('A','B',8)):
-        print ('FALSE DUPLICAR ARISTA OK')
-
-    graph.agregar_arista('A','C',18)
-    graph.agregar_arista('A','E',28)
-    graph.agregar_arista('B','C',38)
-    graph.agregar_arista('B','D',4)
-    graph.agregar_arista('C','D',14)
-    graph.agregar_arista('D','E',24)
-
-    print("A:", graph.obtener_adyacentes('A'))
-    print("B:",graph.obtener_adyacentes('B'))
-    print("C:",graph.obtener_adyacentes('C'))
-    print("D:",graph.obtener_adyacentes('D'))
-    print("E:",graph.obtener_adyacentes('E'))
+    print(graph.cantidad_vertices())
 
 
-    graph.borrar_arista('A','B')
-    graph.borrar_vertice('D')
-    print("debug")
-    print("A:", graph.obtener_adyacentes('A'))
-    print("B:",graph.obtener_adyacentes('B'))
-    print("C:",graph.obtener_adyacentes('C'))
-    print("D:",graph.obtener_adyacentes('D'))
-    print("E:",graph.obtener_adyacentes('E'))
 
 
-    parsear_archivo("sedes.csv")
+
+
+    # graph.agregar_vertice('A','socchi')
+    # graph.agregar_vertice('B','moscu')
+    # graph.agregar_vertice('C','mondongo')
+    # graph.agregar_vertice('D','samara')
+    # graph.agregar_vertice('E','kazan')
+    #
+    # print(graph.obtener_vertice_random())
+    #
+    # print(graph.obtener_dato_vertice('A'))
+    #
+    # #AGREGO ARISTA
+    # if (graph.agregar_arista('A','B',8)):
+    #     print ('AGREGAR ARISTA OK ')
+    #
+    # if (not graph.agregar_arista('A','B',8)):
+    #     print ('FALSE DUPLICAR ARISTA OK')
+    #
+    # graph.agregar_arista('A','C',18)
+    # graph.agregar_arista('A','E',28)
+    # graph.agregar_arista('B','C',38)
+    # graph.agregar_arista('B','D',4)
+    # graph.agregar_arista('C','D',14)
+    # graph.agregar_arista('D','E',24)
+    #
+    # print("A:", graph.obtener_adyacentes('A'))
+    # print("B:",graph.obtener_adyacentes('B'))
+    # print("C:",graph.obtener_adyacentes('C'))
+    # print("D:",graph.obtener_adyacentes('D'))
+    # print("E:",graph.obtener_adyacentes('E'))
+    #
+    #
+    # graph.borrar_arista('A','B')
+    # graph.borrar_vertice('D')
+    # print("debug")
+    # print("A:", graph.obtener_adyacentes('A'))
+    # print("B:",graph.obtener_adyacentes('B'))
+    # print("C:",graph.obtener_adyacentes('C'))
+    # print("D:",graph.obtener_adyacentes('D'))
+    # print("E:",graph.obtener_adyacentes('E'))
+
+
 
 
 main()
