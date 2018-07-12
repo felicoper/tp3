@@ -4,7 +4,6 @@ import random
 - Tener alguna forma de iterarlo. ???
 """
 
-
 class Vertice(object):
 
     def __init__(self,nombre,dato=None):
@@ -52,6 +51,12 @@ class Grafo(object):
         return True
 
     #hay que hacer una para nombre ?
+    def obtener_nombre_vertice(self,id):
+        if (self.existe_vertice(id)):
+            return self.vertices[id].obtener_nombre()
+        return False
+
+
     def obtener_dato_vertice(self,id):
         if (self.existe_vertice(id)):
             return self.vertices[id].obtener_dato()
