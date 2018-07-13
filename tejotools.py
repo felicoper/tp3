@@ -3,11 +3,6 @@ import math
 import heapq
 from TDAgrafo import *
 
-"""
-arbol_tendido_minimo(grafo),
-recibe un grafo (que se puede asumir conexo) y devuelve un nuevo grafo,
-que representa un árbol de tendido mínimo del original.
-"""
 
 def parsear_archivo_grafo(file,grafo):
     vertices = {}
@@ -29,7 +24,7 @@ def parsear_archivo_grafo(file,grafo):
     return grafo
 
 def camino_minimo(grafo,inicio,fin):
-    
+
     #for v in grafo dist[v] = inf
     distancia = dict.fromkeys(grafo.obtener_vertices(),math.inf)
     padre = {}
@@ -65,19 +60,43 @@ def reconstruir_ciclo(padre, origen, destino):
     return camino
 
 def arbol_tendido_minimo(grafo):
-    nuevo_grafo = Grafo()
 
+    #usamos prim.
     inicio = grafo.obtener_vertice_random()
-    print(grafo.obtener_nombre_vertice(inicio))
-    
+    dato = grafo.obtener_dato_vertice(inicio)
 
+    visitados = set()
+    visitados.add(inicio)
 
-    return
+    heap = []
+
+    for w in grafo.obtener_adyacentes(inicio):
+        heapq.heappush(heap,((inicio,w),grafo.obtener_peso_arista(inicio,w)))
+
+    arbol = Grafo()
+    for key in grafo.obtener_vertices():
+        arbol.agregar_vertice(key)
+
+    while True:
+        try:
+            (v,w) = heapq.heappop(heap)
+            if(v[1]) in visitados:
+                continue
+            arbol.agregar_arista(v[0],v[1],w)
+            visitados.add(v[1])
+            print(v[1])
+            for adyacente in grafo.obtener_adyacentes(v[1]):
+                heapq.heappush(heap,((v[1],adyacente),grafo.obtener_peso_arista(v[1],adyacente)))
+        except IndexError:
+            break
+
+    return visitados
 
 def main():
     graph = Grafo()
     parsear_archivo_grafo("sedes.csv",graph)
-    camino_minimo(graph,'Moscu','Saransk')
+    #print(camino_minimo(graph,'Moscu','Saransk'))
     arbol_tendido_minimo(graph)
+
 
 main()

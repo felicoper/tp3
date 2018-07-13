@@ -43,7 +43,7 @@ class Grafo(object):
     def cantidad_vertices(self):
         return (len(self.vertices))
 
-    def agregar_vertice(self,id,dato):
+    def agregar_vertice(self,id,dato=None):
         self.vertices[id] = Vertice(id,dato)
 
     def existe_vertice(self,id):
