@@ -3,6 +3,7 @@ import math
 import heapq
 from TDAgrafo import *
 
+INF = 9999999
 
 def parsear_archivo_grafo(file,grafo):
     vertices = {}
@@ -25,8 +26,7 @@ def parsear_archivo_grafo(file,grafo):
 
 def camino_minimo(grafo,inicio,fin):
 
-    #for v in grafo dist[v] = inf
-    distancia = dict.fromkeys(grafo.obtener_vertices(),math.inf)
+    distancia = dict.fromkeys(grafo.obtener_vertices(),INF)
     padre = {}
     heap = []
 
@@ -91,12 +91,3 @@ def arbol_tendido_minimo(grafo):
             break
 
     return visitados
-
-def main():
-    graph = Grafo()
-    parsear_archivo_grafo("sedes.csv",graph)
-    #print(camino_minimo(graph,'Moscu','Saransk'))
-    arbol_tendido_minimo(graph)
-
-
-main()
