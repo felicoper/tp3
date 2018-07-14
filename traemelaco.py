@@ -27,37 +27,43 @@ def kmlparser(grafo,comando,ruta,trayecto):
     archivo.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     archivo.write("<kml xmlns=\"http://earth.google.com/kml/2.1\">\n")
     archivo.write("	<Document>\n")
-    archivo.write("		<name>" + comando + "</name>")
+    archivo.write("		<name>" + comando + "</name>\n\n")
 
     #Sedes KML
     for sede in range(0,len(trayecto)):
-        archivo.write("		<Placemark>")
-        archivo.write("			<name>" + str(sede) + "</name>")
-        archivo.write("			<Point>")
-        archivo.write("<coordinates> DEBUG")#+ formato_coordenada(grafo,vertice) + "</coordinates>")
-        archivo.write("			</Point>")
-        archivo.write("		</Placemark>")
+        coordenadas = grafo.obtener_dato_vertice(trayecto[sede])
 
 
+        archivo.write("		<Placemark>\n")
+        archivo.write("			<name>" + str(trayecto[sede]) + "</name>\n")
+        archivo.write("			<Point>\n")
+        archivo.write("				<coordinates>" + str(coordenadas[0]) + ", " +  str(coordenadas[1]) + "</coordinates>\n")#+ formato_coordenada(grafo,vertice) + "</coordinates>")
+        archivo.write("			</Point>\n")
+        archivo.write("		</Placemark>\n")
+
+    archivo.write("\n")
     #Traza de rutas en KML.
     #hay que usar itertools
-    for sede in range(0,len(trayecto)-1):
+    for sede in range(0,len(trayecto)):
         try:
             act = trayecto[sede]
             prox = trayecto[sede+1]
 
-            #hay que sacar el par y ponerle el arista. a c/u
+            coord_actual = grafo.obtener_dato_vertice(act)
+            coord_prox = grafo.obtener_dato_vertice(prox)
 
-            #saco el arista de actual y luego del par
-            #print(grafo.obtener_dato_vertice(sede))
-            #grafo.obtener_dato_vertice(par)
+            archivo.write("		<Placemark>\n")
+            archivo.write("			<LineString>\n")
+            archivo.write("				<coordinates>" + str(coord_actual[0]) + ", " + str(coord_actual[1]) + " " + str(coord_prox[0]) + ", " + str(coord_prox[1]) + "</coordinates>\n")
+            archivo.write("			</LineString>\n")
+            archivo.write("		</Placemark>\n")
 
         except IndexError:
             break
 
 
     #Footer KML
-    archivo.write("	</Document>")
+    archivo.write("	</Document>\n")
     archivo.write("</kml>")
 
     archivo.close()
