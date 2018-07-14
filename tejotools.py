@@ -48,7 +48,28 @@ def camino_minimo(grafo,inicio,fin):
         except IndexError:
             break
 
-    return reconstruir_ciclo(padre, inicio, fin)
+    trayecto = reconstruir_ciclo(padre,inicio,fin)
+    costo = costo_trayecto(grafo,trayecto)
+
+    return trayecto,costo
+
+
+def costo_trayecto(grafo,trayecto):
+
+    costo = 0
+
+    for sede in range (0,len(trayecto)):
+        try:
+            act = trayecto[sede]
+            prox = trayecto[sede+1]
+
+            costo += grafo.obtener_peso_arista(act,prox)
+        except IndexError:
+            break
+
+    return costo
+
+
 
 
 def reconstruir_ciclo(padre, origen, destino):
