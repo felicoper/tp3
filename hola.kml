@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+	<Document>
+		<name>ir Moscu, Saransk</name>		<Placemark>			<name>0</name>			<Point><coordinates> DEBUG			</Point>		</Placemark>		<Placemark>			<name>1</name>			<Point><coordinates> DEBUG			</Point>		</Placemark>		<Placemark>			<name>2</name>			<Point><coordinates> DEBUG			</Point>		</Placemark>	</Document></kml>

@@ -1,6 +1,7 @@
 import csv
 import math
 import heapq
+
 from TDAgrafo import *
 
 INF = 9999999
