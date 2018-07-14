@@ -170,3 +170,33 @@ def _problema_viajante_bt(grafo, origen, v, visitados, mejor_recorrido, recorrid
 
 				recorrido_actual -= (grafo.obtener_peso_arista(v,w) + siguiente)
 		return recorrido_actual
+
+def obtener_arista_minima(grafo, vertice, visitados):
+	arista_minima = (INF, None)
+	for adyacente in grafo.obtener_adyacentes(vertice):
+		if adyacente not in visitados:
+			peso = grafo.obtener_peso_arista(vertice, adyacente)
+			if arista_minima[0] > peso:
+				arista_minima = (peso, adyacente)
+	return arista_minima
+
+
+def viajante_aproximado(grafo, inicio):
+	visitados = []
+	peso_camino = 0
+	camino_eficiente = _viajante_aproximado(grafo, inicio, inicio, visitados, peso_camino)
+
+	return camino_eficiente
+
+
+def _viajante_aproximado(grafo, origen, inicio, visitados, peso_camino):
+	visitados.append(inicio)
+
+	if len(visitados) == grafo.cantidad_vertices():
+		peso_camino += grafo.obtener_peso_arista(inicio, origen)
+		visitados.append(origen)
+		return peso_camino, visitados
+
+	arista_minima = obtener_arista_minima(grafo, inicio, visitados)
+	peso_camino += arista_minima[0]
+	return _viajante_aproximado(grafo, origen, arista_minima[1], visitados, peso_camino)

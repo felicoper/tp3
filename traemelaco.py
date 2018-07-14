@@ -13,6 +13,8 @@ def exportar_kml(grafo,comando,ruta,trayecto):
     inicio = trayecto[0]
     fin = trayecto[len(trayecto)-1]
 
+    comando[len(comando)-1] = comando[len(comando)-1].rstrip('\n') #saco el \n
+
     comando = str(' '.join(comando))
 
     archivo = open(ruta,'w')
@@ -76,6 +78,7 @@ def interfaz():
 
     for comando in sys.stdin.readlines():
         comando = comando.split(' ')
+
         if (len(comando)==3):
             if(comando[0]=='ir'):
                 desde = comando[1].rstrip(',')
@@ -97,7 +100,10 @@ def interfaz():
                     exportar_kml(grafo,comando,ruta_kml,recorrido[1])
                 elif(modalidad=='aproximado'):
                     recorrido = viajante_aproximado(grafo,origen)
-                    print(recorrido)
+                    sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
+                    sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
+                    exportar_kml(grafo,comando,ruta_kml,recorrido[1])
+
 
         elif (len(comando)==2): #aca puede ser itinerario recomendaciones.csv o reducir_caminos
             archivo = comando[1].rstrip('\n')
