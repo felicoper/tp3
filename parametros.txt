@@ -1,2 +1,2 @@
 ir Moscu, Saransk
-viaje aproximado, Moscu
+reducir_caminos moscu.csv

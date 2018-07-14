@@ -25,9 +25,7 @@ def parsear_archivo_grafo(file,grafo):
     return grafo
 
 def costo_trayecto(grafo,trayecto):
-
     costo = 0
-
     for sede in range (0,len(trayecto)):
         try:
             act = trayecto[sede]
@@ -36,7 +34,6 @@ def costo_trayecto(grafo,trayecto):
             costo += grafo.obtener_peso_arista(act,prox)
         except IndexError:
             break
-
     return costo
 
 
@@ -78,38 +75,47 @@ def camino_minimo(grafo,inicio,fin):
     return trayecto,costo
 
 
-def arbol_tendido_minimo(grafo):
-
-    #usamos prim.
+def arbol_tendido_minimo_prim(grafo):
     inicio = grafo.obtener_vertice_random()
-    dato = grafo.obtener_dato_vertice(inicio)
 
     visitados = set()
     visitados.add(inicio)
 
+    mst = set()
+
+    peso_total = 0
+
     heap = []
 
     for w in grafo.obtener_adyacentes(inicio):
-        heapq.heappush(heap,((inicio,w),grafo.obtener_peso_arista(inicio,w)))
+        arista = (inicio,w)
+        peso = grafo.obtener_peso_arista(inicio,w)
+        heapq.heappush(heap,(peso,arista))
 
     arbol = Grafo()
-    for key in grafo.obtener_vertices():
-        arbol.agregar_vertice(key)
+    for vertice in grafo.obtener_vertices():
+        arbol.agregar_vertice(vertice)
+    #Tengo un grafo vacio sin aristas.
 
-    while True:
-        try:
-            (v,w) = heapq.heappop(heap)
-            if(v[1]) in visitados:
-                continue
-            arbol.agregar_arista(v[0],v[1],w)
-            visitados.add(v[1])
-            print(v[1])
-            for adyacente in grafo.obtener_adyacentes(v[1]):
-                heapq.heappush(heap,((v[1],adyacente),grafo.obtener_peso_arista(v[1],adyacente)))
-        except IndexError:
-            break
+    while (heap):
+        (peso,arista) = heapq.heappop(heap)
+        if(arista[1] in visitados):
+            continue
+        else:
+            arbol.agregar_arista(arista[0],arista[1],peso)
+            peso_total += peso
+            visitados.add(arista[1])
+            mst.add((arista[0],arista[1],peso))
+            for adyacente in grafo.obtener_adyacentes(arista[1]):
+                peso = grafo.obtener_peso_arista(arista[1],adyacente)
+                arista = (arista[1],adyacente)
+                heapq.heappush(heap,(peso,arista))
 
-    return visitados
+    print (mst)
+
+    return visitados,peso_total
+
+
 
 def orden_topologico(grafo):
 	grado_entrada = {}

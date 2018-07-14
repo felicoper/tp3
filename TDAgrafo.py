@@ -88,7 +88,7 @@ class Grafo(object):
 
     def obtener_peso_arista(self,a,b):
         if not self.existe_arista(a,b):
-   	        return -1
+   	        raise KeyError("No existe la arista.")
         return self.vertices[a].adyacentes[b]
 
 
@@ -107,3 +107,6 @@ class Grafo(object):
         if(self.existe_vertice(id)):
             return list(self.vertices[id].obtener_adyacentes())
         return False
+
+    def obtener_todos_vertices(self):
+        return grafo.vertices.keys()

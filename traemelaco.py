@@ -108,11 +108,12 @@ def interfaz():
         elif (len(comando)==2): #aca puede ser itinerario recomendaciones.csv o reducir_caminos
             archivo = comando[1].rstrip('\n')
             if (comando[0]=='itinerario'):
-                camino = orden_topologico(grafo)
-                print(camino)
-            elif(comando[0]=='reducir_caminos'):
+                # camino = orden_topologico(grafo)
+                # print(camino)
                 pass
-
+            elif(comando[0]=='reducir_caminos'):
+                atm = arbol_tendido_minimo_prim(grafo)
+                print(atm)
 
 
     return
