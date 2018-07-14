@@ -1,6 +1,7 @@
 #!/usr/bin/pythonw
 import sys
-
+import heapq
+from collections import deque
 from TDAgrafo import *
 from tejotools import *
 
@@ -80,24 +81,31 @@ def interfaz():
                 desde = comando[1].rstrip(',')
                 hasta = comando[2].rstrip('\n')
 
-                #llamo a camino minimo.
-                #a camino minimo hay que hacerle devolver una lista del peso de las aristas tambien.
                 recorrido = camino_minimo(grafo,desde,hasta)
 
                 sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
                 sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
                 exportar_kml(grafo,comando,ruta_kml,recorrido[0])
 
-
             elif (comando[0] == 'viaje'):
-                pass
-                if(comando[1] == 'aproximado'):
-                    pass#llamo viaje aproximado
-                elif(comando[1]=='optimo'):
-                    pass#llamo viaje optimo
+                modalidad = comando[1].rstrip(',')
+                origen = comando[2].rstrip('\n')
+                if(modalidad == 'optimo'):
+                    recorrido = problema_viajante_bt(grafo,origen)
+                    sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
+                    sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
+                    exportar_kml(grafo,comando,ruta_kml,recorrido[1])
+                elif(modalidad=='aproximado'):
+                    recorrido = viajante_aproximado(grafo,origen)
+                    print(recorrido)
 
         elif (len(comando)==2): #aca puede ser itinerario recomendaciones.csv o reducir_caminos
-            pass
+            archivo = comando[1].rstrip('\n')
+            if (comando[0]=='itinerario'):
+                camino = orden_topologico(grafo)
+                print(camino)
+            elif(comando[0]=='reducir_caminos'):
+                pass
 
 
 
