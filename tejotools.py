@@ -66,23 +66,25 @@ def camino_minimo(grafo,inicio,fin):
     padre = {}
     heap = []
 
+
     distancia[inicio] = 0
     padre[inicio] = None
 
-    #ENCOLO UNA TUPLA DE LA FORMA ('MOSCU',DISTANCIA['MOSCU'])
     heapq.heappush(heap,(inicio,distancia[inicio]))
 
     while heap:
         v = heapq.heappop(heap)
-        for w in grafo.obtener_adyacentes(v[0]):
-            if (distancia[v[0]] + grafo.obtener_peso_arista(v[0],w) < distancia[w]):
-                padre[w] = v[0]
-                distancia[w] = distancia[v[0]] + grafo.obtener_peso_arista(v[0],w)
-                heapq.heappush(heap,(w,distancia[w]))
+        try:
+            for w in grafo.obtener_adyacentes(v[0]):
+                if (distancia[v[0]] + grafo.obtener_peso_arista(v[0],w) < distancia[w]):
+                    padre[w] = v[0]
+                    distancia[w] = distancia[v[0]] + grafo.obtener_peso_arista(v[0],w)
+                    heapq.heappush(heap,(w,distancia[w]))
+        except TypeError:
+            continue
 
     trayecto = reconstruir_ciclo(padre,inicio,fin)
     costo = costo_trayecto(grafo,trayecto)
-
     return trayecto,costo
 
 
@@ -147,6 +149,7 @@ def _problema_viajante_bt(grafo, origen, v, visitados, mejor_recorrido, recorrid
 
                 recorrido_actual -= (grafo.obtener_peso_arista(v,w) + siguiente)
         return recorrido_actual
+
 
 def obtener_arista_minima(grafo, vertice, visitados):
     arista_minima = (INF, None)

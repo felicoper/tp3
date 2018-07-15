@@ -107,8 +107,12 @@ def parsear_linea(linea,comando):
                 desde += linea[campo] + " "
             for campo in range(pos_coma+1,len(linea)):
                 hasta+= linea[campo] + " "
-        hasta = hasta[:-1]
-        return desde,hasta
+            hasta = hasta[:-1]
+            return desde,hasta
+        else:
+            desde = linea[1].rstrip(',')
+            hasta = linea[2]
+            return desde,hasta
 
     if comando=='viaje':
         origen = ""
@@ -131,10 +135,9 @@ def interfaz():
     for linea in sys.stdin.readlines():
 
         linea = linea.split()
-
         comando = linea[0]
-        linea_parseada = parsear_linea(linea,comando)
 
+        linea_parseada = parsear_linea(linea,comando)
         if comando=='ir':
             desde = linea_parseada[0]
             hasta = linea_parseada[1]
@@ -167,10 +170,10 @@ def interfaz():
             exportar_kml(grafo,linea,ruta_kml,recorrido[1])
 
         if comando =='reducir_caminos':
+            ruta_archivo = linea[1].rstrip(',')
             recorrido,arbol = arbol_tendido_minimo_prim(grafo)
-            sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
-            sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
-            exportar_csv(grafo,arbol,archivo)
+            sys.stdout.write("Peso total: " + str(recorrido[1]) + "\n")
+            exportar_csv(grafo,arbol,ruta_archivo)
 
     return
 

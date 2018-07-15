@@ -1,43 +1,5 @@
 import random
 
-
-# for linea in sys.stdin.readlines():
-#     linea = linea.split(' ')
-#
-#     print(linea)
-#
-#     comando = linea[0]
-#
-#     parsear_linea(linea)
-#
-#     elif (comando == 'viaje'):
-#         modalidad = comando[1].rstrip(',')
-#         origen = comando[2].rstrip('\n')
-#         if(modalidad == 'optimo'):
-#             recorrido = problema_viajante_bt(grafo,origen)
-#             sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
-#             sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
-#             exportar_kml(grafo,comando,ruta_kml,recorrido[1])
-#         elif(modalidad=='aproximado'):
-#             recorrido = viajante_aproximado(grafo,origen)
-#             sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
-#             sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
-#             exportar_kml(grafo,comando,ruta_kml,recorrido[1])
-#
-#
-#     elif (comando=='itinerario'):
-#         archivo = comando[1].rstrip('\n')
-#         grafo_dirigido = parsear_recomendaciones(archivo,grafo)
-#         recorrido = orden_topologico(grafo_dirigido)
-#         sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
-#         sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
-#
-#     elif(comando=='reducir_caminos'):
-#         recorrido,arbol = arbol_tendido_minimo_prim(grafo)
-#         sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
-#         sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
-#         exportar_csv(grafo,arbol,archivo)
-
 class Vertice(object):
 
     def __init__(self,nombre,dato=None):
@@ -50,7 +12,6 @@ class Vertice(object):
 
     def obtener_dato(self):
         return self.dato
-
 
     def esta_conectado(self,vertice):
         if (vertice in self.adyacentes):
@@ -85,7 +46,7 @@ class Grafo(object):
 
     #hay que hacer una para nombre ?
     def obtener_dato_vertice(self,id):
-        if (not self.existe_vertice(id)):
+        if not self.existe_vertice(id):
             raise KeyError("No existe el vertice")
         return self.vertices[id].obtener_dato()
 
@@ -93,17 +54,14 @@ class Grafo(object):
         return (self.vertices.keys())
 
     def obtener_aristas(self,dirigido=False):
-        #ojo con no dirigidos
         aristas = []
         for vertice in self.vertices:
             for adyacente in self.vertices[vertice].obtener_adyacentes():
-                #arista = (inicio,fin,peso)
                 arista = (self.vertices[vertice].obtener_nombre(),adyacente,self.obtener_peso_arista(self.vertices[vertice].obtener_nombre(),adyacente))
                 if(dirigido):
                     if((arista[1],arista[0],arista[2]) in aristas):
                         continue
                     aristas.append(arista)
-
         return aristas
 
 
