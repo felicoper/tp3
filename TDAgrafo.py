@@ -87,8 +87,12 @@ class Grafo(object):
     	return b in self.vertices[a].adyacentes
 
     def obtener_peso_arista(self,a,b):
+        # try:
+        #     return self.vertices[a].adyacentes[b]
+        # # KeyError("No existe la arista.")
+
         if not self.existe_arista(a,b):
-   	        raise KeyError("No existe la arista.")
+   	      raise KeyError("No existe la arista." + a + b)
         return self.vertices[a].adyacentes[b]
 
 

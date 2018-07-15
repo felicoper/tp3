@@ -25,6 +25,7 @@ def parsear_archivo_grafo(file,grafo):
     return grafo
 
 def parsear_recomendaciones(file, grafo):
+    print("PARSEAR RECO")
     grafo_dirigido = Grafo()
 
     for vertice in grafo.obtener_vertices():
@@ -33,11 +34,11 @@ def parsear_recomendaciones(file, grafo):
     with open (file,"r") as f:
         f_reader = csv.reader(f, delimiter=',')
         for row in f_reader:
-            vertice_entrada = row[0]
-            vertice_salida = row[1]
-            grafo_dirigido.agregar_arista_dirigido(vertice_entrada, vertice_salida, grafo.obtener_peso_arista(vertice_entrada, vertice_salida))
-
-    return grafo_dirigido
+            if len(row) == 3 and row[1].isalpha():
+                vertice_entrada = row[0]
+                vertice_salida = row[1]
+                grafo_dirigido.agregar_arista_dirigido(vertice_entrada, vertice_salida, grafo.obtener_peso_arista(vertice_entrada, vertice_salida))
+        return grafo_dirigido
 
 
 def costo_trayecto(grafo,trayecto):
@@ -122,37 +123,6 @@ def arbol_tendido_minimo_prim(grafo):
 
     return visitados,peso_total
 
-
-
-def orden_topologico(grafo):
-	grado_entrada = {}
-
-	for v in grafo.obtener_vertices():
-		grado_entrada[v] = 0
-	for v in grafo.obtener_vertices():
-		for w in grafo.obtener_adyacentes(v):
-			grado_entrada[w] += 1
-
-	cola = deque()
-	for v in grafo.obtener_vertices():
-		if grado_entrada[v] == 0:
-			cola.append(v)
-
-	salida = []
-	peso = 0
-
-	while len(cola) > 0:
-		v = cola.popleft()
-		salida.append(v)
-		for w in grafo.obtener_adyacentes(v):
-			grado_entrada[w] -= 1
-			peso += grafo.obtener_peso_arista(v,w)
-			if grado_entrada[w] == 0:
-				cola.append(w)
-	return peso, salida
-
-
-
 def problema_viajante_bt(grafo, origen):
 
 	visitados = []
@@ -213,3 +183,35 @@ def _viajante_aproximado(grafo, origen, inicio, visitados, peso_camino):
 	arista_minima = obtener_arista_minima(grafo, inicio, visitados)
 	peso_camino += arista_minima[0]
 	return _viajante_aproximado(grafo, origen, arista_minima[1], visitados, peso_camino)
+
+
+def orden_topologico(grafo):
+    grado_entrada = {}
+
+    for v in grafo.obtener_vertices():
+        grado_entrada[v] = 0
+    for v in grafo.obtener_vertices():
+        for w in grafo.obtener_adyacentes(v):
+            grado_entrada[w] += 1
+
+    print grado_entrada.keys()
+    cola = deque()
+
+    # for z in grado_entrada.keys():
+    #     print z, grado_entrada[z]
+    #     if grado_entrada[z] == 0:
+    #         cola.append(z)
+    #         print v
+    #
+	# salida = []
+	# peso = 0
+    #
+	# while cola:
+	# 	v = cola.popleft()
+	# 	salida.append(v)
+	# 	for w in grafo.obtener_adyacentes(v):
+	# 		grado_entrada[w] -= 1
+	# 		peso += grafo.obtener_peso_arista(v,w)
+	# 		if grado_entrada[w] == 0:
+	# 			cola.append(w)
+    return peso, salida
