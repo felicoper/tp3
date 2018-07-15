@@ -1,2 +1,1 @@
 itinerario ejemplo_recomendaciones.csv
-reducir_caminos destino.csv

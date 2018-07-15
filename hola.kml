@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://earth.google.com/kml/2.1">
 	<Document>
-		<name>reducir_caminos moscu.csv</name>
+		<name>itinerario ejemplo_recomendaciones.csv</name>
 
+		<Placemark>
+			<name>Saransk</name>
+			<Point>
+				<coordinates>54.183333, 45.183333</coordinates>
+			</Point>
+		</Placemark>
 		<Placemark>
 			<name>Moscu</name>
 			<Point>
@@ -10,9 +16,9 @@
 			</Point>
 		</Placemark>
 		<Placemark>
-			<name>Samara</name>
+			<name>Ekaterinburgo</name>
 			<Point>
-				<coordinates>53.183333, 50.116667</coordinates>
+				<coordinates>56.833333, 60.583333</coordinates>
 			</Point>
 		</Placemark>
 		<Placemark>
@@ -22,15 +28,9 @@
 			</Point>
 		</Placemark>
 		<Placemark>
-			<name>Rostov del Don</name>
+			<name>San Petesburgo</name>
 			<Point>
-				<coordinates>47.233333, 39.716667</coordinates>
-			</Point>
-		</Placemark>
-		<Placemark>
-			<name>Nizhni Novgorod</name>
-			<Point>
-				<coordinates>56.326944, 44.0075</coordinates>
+				<coordinates>59.95, 30.316667</coordinates>
 			</Point>
 		</Placemark>
 		<Placemark>
@@ -40,9 +40,15 @@
 			</Point>
 		</Placemark>
 		<Placemark>
-			<name>Volgogrado</name>
+			<name>Nizhni Novgorod</name>
 			<Point>
-				<coordinates>48.7, 44.483333</coordinates>
+				<coordinates>56.326944, 44.0075</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Samara</name>
+			<Point>
+				<coordinates>53.183333, 50.116667</coordinates>
 			</Point>
 		</Placemark>
 		<Placemark>
@@ -52,72 +58,66 @@
 			</Point>
 		</Placemark>
 		<Placemark>
-			<name>San Petesburgo</name>
+			<name>Volgogrado</name>
 			<Point>
-				<coordinates>59.95, 30.316667</coordinates>
+				<coordinates>48.7, 44.483333</coordinates>
 			</Point>
 		</Placemark>
 		<Placemark>
-			<name>Saransk</name>
+			<name>Rostov del Don</name>
 			<Point>
-				<coordinates>54.183333, 45.183333</coordinates>
-			</Point>
-		</Placemark>
-		<Placemark>
-			<name>Ekaterinburgo</name>
-			<Point>
-				<coordinates>56.833333, 60.583333</coordinates>
+				<coordinates>47.233333, 39.716667</coordinates>
 			</Point>
 		</Placemark>
 
 		<Placemark>
 			<LineString>
-				<coordinates>55.755833, 37.617778 53.183333, 50.116667</coordinates>
+				<coordinates>54.183333, 45.183333 55.755833, 37.617778</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>53.183333, 50.116667 54.716667, 20.5</coordinates>
+				<coordinates>55.755833, 37.617778 56.833333, 60.583333</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>54.716667, 20.5 47.233333, 39.716667</coordinates>
+				<coordinates>56.833333, 60.583333 54.716667, 20.5</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>47.233333, 39.716667 56.326944, 44.0075</coordinates>
+				<coordinates>54.716667, 20.5 59.95, 30.316667</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>56.326944, 44.0075 55.790833, 49.114444</coordinates>
+				<coordinates>59.95, 30.316667 55.790833, 49.114444</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>55.790833, 49.114444 48.7, 44.483333</coordinates>
+				<coordinates>55.790833, 49.114444 56.326944, 44.0075</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>48.7, 44.483333 43.585278, 39.720278</coordinates>
+				<coordinates>56.326944, 44.0075 53.183333, 50.116667</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>43.585278, 39.720278 59.95, 30.316667</coordinates>
+				<coordinates>53.183333, 50.116667 43.585278, 39.720278</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>59.95, 30.316667 54.183333, 45.183333</coordinates>
+				<coordinates>43.585278, 39.720278 48.7, 44.483333</coordinates>
 			</LineString>
 		</Placemark>
 		<Placemark>
 			<LineString>
-				<coordinates>54.183333, 45.183333 56.833333, 60.583333</coordinates>
+				<coordinates>48.7, 44.483333 47.233333, 39.716667</coordinates>
 			</LineString>
 		</Placemark>
 	</Document>

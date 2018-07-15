@@ -65,19 +65,19 @@ def exportar_kml(grafo,comando,ruta,trayecto):
 
     return
 
-
 """ Devuelve un archivo csv similar al original con los caminos reducidos."""
 def exportar_csv(grafo,mst,ruta):
 
     vertices = grafo.obtener_vertices()
-    vertices.sort()
+
+    vertices_ordenados = sorted(list(grafo.obtener_vertices()))
 
     aristas = mst.obtener_aristas(dirigido = True)
     aristas.sort()
 
     archivo = open(ruta,"w")
     archivo.write(str(grafo.cantidad_vertices()) + "\n")
-    for vertice in vertices:
+    for vertice in vertices_ordenados:
         coord = grafo.obtener_dato_vertice(vertice)
         archivo.write(vertice + "," + str(coord[0]) + "," + str(coord[1]) + "\n")
 
@@ -90,10 +90,37 @@ def exportar_csv(grafo,mst,ruta):
 
     return
 
+def parsear_linea(linea,comando):
+
+    if comando=='ir':
+        desde = ""
+        hasta = ""
+        pos_coma = 0
+
+        if len(linea)>3: #va a pasar cuando sea san peterbursgo o rostov del don
+            for campo in range(1,len(linea)):
+                if linea[campo].endswith(','):
+                    desde += linea[campo].rstrip(',')
+                    pos_coma +=1
+                    break
+                pos_coma += 1
+                desde += linea[campo] + " "
+            for campo in range(pos_coma+1,len(linea)):
+                hasta+= linea[campo] + " "
+        hasta = hasta[:-1]
+        return desde,hasta
+
+    if comando=='viaje':
+        origen = ""
+        for campo in range(2,len(linea)):
+            origen += linea[campo] + " "
+        origen = origen[:-1]
+        return origen
+
+    return
 
 def interfaz():
     parametros = sys.argv
-
     csv = parametros[1]
     ruta_kml = parametros[2]
 
@@ -101,49 +128,49 @@ def interfaz():
     grafo = Grafo()
     parsear_archivo_grafo(csv,grafo)
 
-    for comando in sys.stdin.readlines():
-        comando = comando.split(' ')
+    for linea in sys.stdin.readlines():
 
-        if (len(comando)==3):
-            if(comando[0]=='ir'):
-                desde = comando[1].rstrip(',')
-                hasta = comando[2].rstrip('\n')
+        linea = linea.split()
 
-                recorrido = camino_minimo(grafo,desde,hasta)
+        comando = linea[0]
+        linea_parseada = parsear_linea(linea,comando)
 
-                sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
-                sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
-                exportar_kml(grafo,comando,ruta_kml,recorrido[0])
+        if comando=='ir':
+            desde = linea_parseada[0]
+            hasta = linea_parseada[1]
 
-            elif (comando[0] == 'viaje'):
-                modalidad = comando[1].rstrip(',')
-                origen = comando[2].rstrip('\n')
-                if(modalidad == 'optimo'):
-                    recorrido = problema_viajante_bt(grafo,origen)
-                    sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
-                    sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
-                    exportar_kml(grafo,comando,ruta_kml,recorrido[1])
-                elif(modalidad=='aproximado'):
-                    recorrido = viajante_aproximado(grafo,origen)
-                    sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
-                    sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
-                    exportar_kml(grafo,comando,ruta_kml,recorrido[1])
+            recorrido = camino_minimo(grafo,desde,hasta)
+            sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
+            sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
+            exportar_kml(grafo,linea,ruta_kml,recorrido[0])
 
-
-        elif (len(comando)==2): #aca puede ser itinerario recomendaciones.csv o reducir_caminos
-            archivo = comando[1].rstrip('\n')
-            if (comando[0]=='itinerario'):
-                grafo_dirigido = parsear_recomendaciones(archivo,grafo)
-                recorrido = orden_topologico(grafo_dirigido)
+        if comando=='viaje':
+            modalidad = linea[1].rstrip(',')
+            origen = parsear_linea(linea,comando)
+            if modalidad=='optimo':
+                recorrido = problema_viajante_bt(grafo,origen)
                 sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
                 sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
-            elif(comando[0]=='reducir_caminos'):
-                recorrido,arbol = arbol_tendido_minimo_prim(grafo)
-                sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
-                sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
-                exportar_csv(grafo,arbol,archivo)
+                exportar_kml(grafo,linea,ruta_kml,recorrido[1])
+            elif modalidad == 'aproximado':
+                recorrido = viajante_aproximado(grafo,origen)
+                sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
+                sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
+                exportar_kml(grafo,linea,ruta_kml,recorrido[1])
 
+        if comando =='itinerario':
+            archivo = linea[1].rstrip(',')
+            grafo_dirigido = parsear_recomendaciones(archivo,grafo)
+            recorrido = orden_topologico(grafo_dirigido)
+            sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
+            sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
+            exportar_kml(grafo,linea,ruta_kml,recorrido[1])
 
+        if comando =='reducir_caminos':
+            recorrido,arbol = arbol_tendido_minimo_prim(grafo)
+            sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
+            sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
+            exportar_csv(grafo,arbol,archivo)
 
     return
 

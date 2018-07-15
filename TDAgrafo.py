@@ -1,9 +1,42 @@
 import random
 
-"""
-- Tener alguna forma de iterarlo. ???
-"""
 
+# for linea in sys.stdin.readlines():
+#     linea = linea.split(' ')
+#
+#     print(linea)
+#
+#     comando = linea[0]
+#
+#     parsear_linea(linea)
+#
+#     elif (comando == 'viaje'):
+#         modalidad = comando[1].rstrip(',')
+#         origen = comando[2].rstrip('\n')
+#         if(modalidad == 'optimo'):
+#             recorrido = problema_viajante_bt(grafo,origen)
+#             sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
+#             sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
+#             exportar_kml(grafo,comando,ruta_kml,recorrido[1])
+#         elif(modalidad=='aproximado'):
+#             recorrido = viajante_aproximado(grafo,origen)
+#             sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
+#             sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
+#             exportar_kml(grafo,comando,ruta_kml,recorrido[1])
+#
+#
+#     elif (comando=='itinerario'):
+#         archivo = comando[1].rstrip('\n')
+#         grafo_dirigido = parsear_recomendaciones(archivo,grafo)
+#         recorrido = orden_topologico(grafo_dirigido)
+#         sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
+#         sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
+#
+#     elif(comando=='reducir_caminos'):
+#         recorrido,arbol = arbol_tendido_minimo_prim(grafo)
+#         sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
+#         sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
+#         exportar_csv(grafo,arbol,archivo)
 
 class Vertice(object):
 
@@ -52,9 +85,9 @@ class Grafo(object):
 
     #hay que hacer una para nombre ?
     def obtener_dato_vertice(self,id):
-        if (self.existe_vertice(id)):
-            return self.vertices[id].obtener_dato()
-        return False
+        if (not self.existe_vertice(id)):
+            raise KeyError("No existe el vertice")
+        return self.vertices[id].obtener_dato()
 
     def obtener_vertices(self):
         return (self.vertices.keys())
