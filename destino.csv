@@ -1,0 +1,23 @@
+11
+Ekaterinburgo,56.833333,60.583333
+Kaliningrado,54.716667,20.5
+Kazan,55.790833,49.114444
+Moscu,55.755833,37.617778
+Nizhni Novgorod,56.326944,44.0075
+Rostov del Don,47.233333,39.716667
+Samara,53.183333,50.116667
+San Petesburgo,59.95,30.316667
+Saransk,54.183333,45.183333
+Sochi,43.585278,39.720278
+Volgogrado,48.7,44.483333
+10
+Ekaterinburgo,Nizhni Novgorod,5
+Kaliningrado,Moscu,3
+Kaliningrado,San Petesburgo,4
+Kazan,Nizhni Novgorod,1
+Moscu,Rostov del Don,3
+Rostov del Don,Nizhni Novgorod,3
+Samara,Moscu,2
+Saransk,San Petesburgo,4
+Volgogrado,Kazan,2
+Volgogrado,Sochi,3

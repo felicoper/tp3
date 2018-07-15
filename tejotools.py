@@ -34,11 +34,10 @@ def parsear_recomendaciones(file, grafo):
     with open (file,"r") as f:
         f_reader = csv.reader(f, delimiter=',')
         for row in f_reader:
-            if len(row) == 3 and row[1].isalpha():
-                vertice_entrada = row[0]
-                vertice_salida = row[1]
-                grafo_dirigido.agregar_arista_dirigido(vertice_entrada, vertice_salida, grafo.obtener_peso_arista(vertice_entrada, vertice_salida))
-        return grafo_dirigido
+            vertice_entrada = row[0]
+            vertice_salida = row[1]
+            grafo_dirigido.agregar_arista_dirigido(vertice_entrada, vertice_salida, grafo.obtener_peso_arista(vertice_entrada, vertice_salida))
+    return grafo_dirigido
 
 
 def costo_trayecto(grafo,trayecto):
@@ -121,68 +120,68 @@ def arbol_tendido_minimo_prim(grafo):
                 if (a not in visitados):
                     heapq.heappush(heap, (peso,destino,a))
 
-    return visitados,peso_total
+    return (visitados,peso_total),arbol
 
 def problema_viajante_bt(grafo, origen):
 
-	visitados = []
-	mejor_recorrido = [(INF, [])]
-	_problema_viajante_bt(grafo, origen, origen, visitados, mejor_recorrido, 0)
-	mejor_recorrido[0][1].append(origen)
-	return mejor_recorrido[0]
+    visitados = []
+    mejor_recorrido = [(INF, [])]
+    _problema_viajante_bt(grafo, origen, origen, visitados, mejor_recorrido, 0)
+    mejor_recorrido[0][1].append(origen)
+    return mejor_recorrido[0]
 
 
 def _problema_viajante_bt(grafo, origen, v, visitados, mejor_recorrido, recorrido_actual):
-		visitados.append(v)
-		if len(visitados) == grafo.cantidad_vertices():
-			return grafo.obtener_peso_arista(v, origen)
+        visitados.append(v)
+        if len(visitados) == grafo.cantidad_vertices():
+            return grafo.obtener_peso_arista(v, origen)
 
-		if recorrido_actual > mejor_recorrido[0][0]:
-			return 0
+        if recorrido_actual > mejor_recorrido[0][0]:
+            return 0
 
-		for w in grafo.obtener_adyacentes(v):
-			if w not in visitados:
-				recorrido_actual += grafo.obtener_peso_arista(v, w)
-				siguiente = _problema_viajante_bt(grafo, origen, w, visitados, mejor_recorrido, recorrido_actual)
-				recorrido_actual += siguiente
+        for w in grafo.obtener_adyacentes(v):
+            if w not in visitados:
+                recorrido_actual += grafo.obtener_peso_arista(v, w)
+                siguiente = _problema_viajante_bt(grafo, origen, w, visitados, mejor_recorrido, recorrido_actual)
+                recorrido_actual += siguiente
 
-				if len(visitados) == grafo.cantidad_vertices() and recorrido_actual < mejor_recorrido[0][0]:
-					mejor_recorrido[0] = (recorrido_actual, visitados[:])
+                if len(visitados) == grafo.cantidad_vertices() and recorrido_actual < mejor_recorrido[0][0]:
+                    mejor_recorrido[0] = (recorrido_actual, visitados[:])
 
-				visitados.pop()
+                visitados.pop()
 
-				recorrido_actual -= (grafo.obtener_peso_arista(v,w) + siguiente)
-		return recorrido_actual
+                recorrido_actual -= (grafo.obtener_peso_arista(v,w) + siguiente)
+        return recorrido_actual
 
 def obtener_arista_minima(grafo, vertice, visitados):
-	arista_minima = (INF, None)
-	for adyacente in grafo.obtener_adyacentes(vertice):
-		if adyacente not in visitados:
-			peso = grafo.obtener_peso_arista(vertice, adyacente)
-			if arista_minima[0] > peso:
-				arista_minima = (peso, adyacente)
-	return arista_minima
+    arista_minima = (INF, None)
+    for adyacente in grafo.obtener_adyacentes(vertice):
+        if adyacente not in visitados:
+            peso = grafo.obtener_peso_arista(vertice, adyacente)
+            if arista_minima[0] > peso:
+                arista_minima = (peso, adyacente)
+    return arista_minima
 
 
 def viajante_aproximado(grafo, inicio):
-	visitados = []
-	peso_camino = 0
-	camino_eficiente = _viajante_aproximado(grafo, inicio, inicio, visitados, peso_camino)
+    visitados = []
+    peso_camino = 0
+    camino_eficiente = _viajante_aproximado(grafo, inicio, inicio, visitados, peso_camino)
 
-	return camino_eficiente
+    return camino_eficiente
 
 
 def _viajante_aproximado(grafo, origen, inicio, visitados, peso_camino):
-	visitados.append(inicio)
+    visitados.append(inicio)
 
-	if len(visitados) == grafo.cantidad_vertices():
-		peso_camino += grafo.obtener_peso_arista(inicio, origen)
-		visitados.append(origen)
-		return peso_camino, visitados
+    if len(visitados) == grafo.cantidad_vertices():
+        peso_camino += grafo.obtener_peso_arista(inicio, origen)
+        visitados.append(origen)
+        return peso_camino, visitados
 
-	arista_minima = obtener_arista_minima(grafo, inicio, visitados)
-	peso_camino += arista_minima[0]
-	return _viajante_aproximado(grafo, origen, arista_minima[1], visitados, peso_camino)
+    arista_minima = obtener_arista_minima(grafo, inicio, visitados)
+    peso_camino += arista_minima[0]
+    return _viajante_aproximado(grafo, origen, arista_minima[1], visitados, peso_camino)
 
 
 def orden_topologico(grafo):
@@ -197,21 +196,21 @@ def orden_topologico(grafo):
     print grado_entrada.keys()
     cola = deque()
 
-    # for z in grado_entrada.keys():
-    #     print z, grado_entrada[z]
-    #     if grado_entrada[z] == 0:
-    #         cola.append(z)
-    #         print v
-    #
-	# salida = []
-	# peso = 0
-    #
-	# while cola:
-	# 	v = cola.popleft()
-	# 	salida.append(v)
-	# 	for w in grafo.obtener_adyacentes(v):
-	# 		grado_entrada[w] -= 1
-	# 		peso += grafo.obtener_peso_arista(v,w)
-	# 		if grado_entrada[w] == 0:
-	# 			cola.append(w)
+    for z in grado_entrada.keys():
+        print z, grado_entrada[z]
+        if grado_entrada[z] == 0:
+            cola.append(z)
+            print v
+
+    salida = []
+    peso = 0
+
+    while cola:
+        v = cola.popleft()
+        salida.append(v)
+        for w in grafo.obtener_adyacentes(v):
+            grado_entrada[w] -= 1
+            peso += grafo.obtener_peso_arista(v,w)
+            if grado_entrada[w] == 0:
+                cola.append(w)
     return peso, salida

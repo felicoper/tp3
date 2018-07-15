@@ -36,7 +36,6 @@ class Vertice(object):
 
 
 class Grafo(object):
-    """grafo no dirigido"""
     def __init__(self):
         self.vertices = {}
 
@@ -59,6 +58,21 @@ class Grafo(object):
 
     def obtener_vertices(self):
         return (self.vertices.keys())
+
+    def obtener_aristas(self,dirigido=False):
+        #ojo con no dirigidos
+        aristas = []
+        for vertice in self.vertices:
+            for adyacente in self.vertices[vertice].obtener_adyacentes():
+                #arista = (inicio,fin,peso)
+                arista = (self.vertices[vertice].obtener_nombre(),adyacente,self.obtener_peso_arista(self.vertices[vertice].obtener_nombre(),adyacente))
+                if(dirigido):
+                    if((arista[1],arista[0],arista[2]) in aristas):
+                        continue
+                    aristas.append(arista)
+
+        return aristas
+
 
     #PRE: EL GRAFO TIENE VERTICES
     def obtener_vertice_random(self):
@@ -116,7 +130,6 @@ class Grafo(object):
         return grafo.vertices.keys()
 
     def agregar_arista_dirigido(self, a, b, peso = 1):
-
         if(self.existe_vertice(a) and self.existe_vertice(b) and not self.vertices[a].esta_conectado(b)):
             self.vertices[a].agregar_adyacentes(b,peso)
             return True

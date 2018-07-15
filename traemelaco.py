@@ -66,6 +66,31 @@ def exportar_kml(grafo,comando,ruta,trayecto):
     return
 
 
+""" Devuelve un archivo csv similar al original con los caminos reducidos."""
+def exportar_csv(grafo,mst,ruta):
+
+    vertices = grafo.obtener_vertices()
+    vertices.sort()
+
+    aristas = mst.obtener_aristas(dirigido = True)
+    aristas.sort()
+
+    archivo = open(ruta,"w")
+    archivo.write(str(grafo.cantidad_vertices()) + "\n")
+    for vertice in vertices:
+        coord = grafo.obtener_dato_vertice(vertice)
+        archivo.write(vertice + "," + str(coord[0]) + "," + str(coord[1]) + "\n")
+
+    archivo.write(str(len(aristas)) + "\n")
+    for arista in aristas:
+        archivo.write(arista[0] + "," + arista[1] + "," + str(arista[2]) + "\n")
+
+
+    archivo.close()
+
+    return
+
+
 def interfaz():
     parametros = sys.argv
 
@@ -108,15 +133,15 @@ def interfaz():
         elif (len(comando)==2): #aca puede ser itinerario recomendaciones.csv o reducir_caminos
             archivo = comando[1].rstrip('\n')
             if (comando[0]=='itinerario'):
-                grafo_dirigido = parsear_recomendaciones(csv,grafo)
-                camino = orden_topologico(grafo_dirigido)
-                camino = []
-                print(camino)
+                grafo_dirigido = parsear_recomendaciones(archivo,grafo)
+                recorrido = orden_topologico(grafo_dirigido)
+                sys.stdout.write(' -> '.join(recorrido[1]) + "\n")
+                sys.stdout.write("Costo total: " + str(recorrido[0]) + "\n")
             elif(comando[0]=='reducir_caminos'):
-                recorrido = arbol_tendido_minimo_prim(grafo)
+                recorrido,arbol = arbol_tendido_minimo_prim(grafo)
                 sys.stdout.write(' -> '.join(recorrido[0]) + "\n")
                 sys.stdout.write("Costo total: " + str(recorrido[1]) + "\n")
-                exportar_kml(grafo,comando,ruta_kml,recorrido[0])
+                exportar_csv(grafo,arbol,archivo)
 
 
 
