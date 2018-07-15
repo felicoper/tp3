@@ -1,2 +1,3 @@
 ir Moscu, Saransk
 reducir_caminos moscu.csv
+itinerario hola.csv

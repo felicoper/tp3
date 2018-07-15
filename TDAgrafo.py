@@ -110,3 +110,9 @@ class Grafo(object):
 
     def obtener_todos_vertices(self):
         return grafo.vertices.keys()
+
+    def agregar_arista_dirigido(self, a, b, peso = 1):
+
+        if(self.existe_vertice(a) and self.existe_vertice(b) and not self.vertices[a].esta_conectado(b)):
+            self.vertices[a].agregar_adyacentes(b,peso)
+            return True

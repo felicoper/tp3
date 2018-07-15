@@ -24,6 +24,22 @@ def parsear_archivo_grafo(file,grafo):
 
     return grafo
 
+def parsear_recomendaciones(file, grafo):
+    grafo_dirigido = Grafo()
+
+    for vertice in grafo.obtener_vertices():
+        grafo_dirigido.agregar_vertice(vertice)
+
+    with open (file,"r") as f:
+        f_reader = csv.reader(f, delimiter=',')
+        for row in f_reader:
+            vertice_entrada = row[0]
+            vertice_salida = row[1]
+            grafo_dirigido.agregar_arista_dirigido(vertice_entrada, vertice_salida, grafo.obtener_peso_arista(vertice_entrada, vertice_salida))
+
+    return grafo_dirigido
+
+
 def costo_trayecto(grafo,trayecto):
     costo = 0
     for sede in range (0,len(trayecto)):
@@ -77,41 +93,32 @@ def camino_minimo(grafo,inicio,fin):
 
 def arbol_tendido_minimo_prim(grafo):
     inicio = grafo.obtener_vertice_random()
+    # inicio = grafo.obtener_vertices()[5]
 
-    visitados = set()
-    visitados.add(inicio)
-
-    mst = set()
-
+    visitados = []
     peso_total = 0
-
     heap = []
-
-    for w in grafo.obtener_adyacentes(inicio):
-        arista = (inicio,w)
-        peso = grafo.obtener_peso_arista(inicio,w)
-        heapq.heappush(heap,(peso,arista))
-
     arbol = Grafo()
     for vertice in grafo.obtener_vertices():
         arbol.agregar_vertice(vertice)
-    #Tengo un grafo vacio sin aristas.
 
-    while (heap):
-        (peso,arista) = heapq.heappop(heap)
-        if(arista[1] in visitados):
-            continue
-        else:
-            arbol.agregar_arista(arista[0],arista[1],peso)
-            peso_total += peso
-            visitados.add(arista[1])
-            mst.add((arista[0],arista[1],peso))
-            for adyacente in grafo.obtener_adyacentes(arista[1]):
-                peso = grafo.obtener_peso_arista(arista[1],adyacente)
-                arista = (arista[1],adyacente)
-                heapq.heappush(heap,(peso,arista))
+    for w in grafo.obtener_adyacentes(inicio):
+        peso = grafo.obtener_peso_arista(inicio, w)
+        heapq.heappush(heap, (peso,inicio,w))
+    i = 0
 
-    print (mst)
+    while heap:
+        (peso, origen, destino) = heapq.heappop(heap)
+        if destino not in visitados:
+            visitados.append(destino)
+            arbol.agregar_arista(origen,destino,peso)
+            if i != 0:
+                peso_total += peso
+            i += 1
+            for a in grafo.obtener_adyacentes(destino):
+                peso = grafo.obtener_peso_arista(destino,a)
+                if (a not in visitados):
+                    heapq.heappush(heap, (peso,destino,a))
 
     return visitados,peso_total
 
